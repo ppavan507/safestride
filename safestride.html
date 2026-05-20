@@ -388,7 +388,9 @@
 // ══════════════════════════════════════════════════════════════════════
 // CONFIG — change SERVER to your deployed Flask URL
 // ══════════════════════════════════════════════════════════════════════
-const SERVER = ' https://demeaning-favorable-gigabyte.ngrok-free.dev';  // e.g. 'https://safestride-xyz.onrender.com'
+const SERVER = window.location.hostname === 'localhost' 
+  ? 'http://localhost:8081' 
+  : '';  // e.g. 'https://safestride-xyz.onrender.com'
                     // Leave empty to demo without a backend
 
 // ══════════════════════════════════════════════════════════════════════
