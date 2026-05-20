@@ -26,7 +26,7 @@ import cv2
 import numpy as np
 import requests
 
-from flask       import Flask, request, jsonify
+from flask       import Flask, request, jsonify, send_from_directory
 from flask_cors  import CORS
 from datetime    import datetime
 from email.mime.multipart import MIMEMultipart
@@ -314,7 +314,9 @@ def list_users():
 # ════════════════════════════════════════════════════════════════════════════════
 # CAREGIVER PORTAL  (unchanged from your original server.py)
 # ════════════════════════════════════════════════════════════════════════════════
-
+@app.route('/app')
+def webapp():
+    return send_from_directory('.', 'safestride.html')
 @app.route("/")
 @app.route("/portal")
 def portal():
