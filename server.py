@@ -310,13 +310,13 @@ def list_users():
     """GET /api/users — returns list of all currently tracked usernames."""
     return jsonify(list(location_store.keys())), 200
 
-@app.route('/app')
-def webapp():
-    return send_from_directory('.', 'safestride.html')
 # ════════════════════════════════════════════════════════════════════════════════
 # CAREGIVER PORTAL  (unchanged from your original server.py)
 # ════════════════════════════════════════════════════════════════════════════════
-
+@app.route('/app')
+def webapp():
+    return send_from_directory('.', 'safestride.html')
+    
 @app.route("/")
 @app.route("/portal")
 def portal():
