@@ -315,7 +315,9 @@ def list_users():
 # ════════════════════════════════════════════════════════════════════════════════
 @app.route('/app')
 def webapp():
-    return send_from_directory('.', 'safestride.html')
+    response = send_from_directory('.', 'safestride.html')
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    return response
     
 @app.route("/")
 @app.route("/portal")
