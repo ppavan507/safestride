@@ -127,10 +127,11 @@
     position: relative;
     background: #000;
     flex-shrink: 0;
+    flex: 1;
   }
   #cam-video {
     width: 100%; display: block;
-    max-height: 70vh; object-fit: cover;
+    max-height: 60vh; object-fit: cover;
   }
   #cam-canvas { display: none; }
   #cam-overlay {
@@ -389,7 +390,7 @@
 // CONFIG — change SERVER to your deployed Flask URL
 // ══════════════════════════════════════════════════════════════════════
 const SERVER = window.location.hostname === 'localhost' 
-  ? 'http://localhost:8081' 
+  ? 'http://localhost:8181' 
   : '';  // e.g. 'https://safestride-xyz.onrender.com'
                     // Leave empty to demo without a backend
 

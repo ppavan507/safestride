@@ -1,7 +1,7 @@
 """
 SafeStride Pro — Complete Backend Server
 Run with: python server.py
-Runs on:  http://localhost:8081
+Runs on:  http://localhost:8181
 
 Endpoints:
   POST /api/register          — create account (replaces MySQL)
@@ -40,10 +40,10 @@ except ImportError:
     from services.ai_engine import AIEngine  # if ai_engine.py is inside services/
 
 # ── Keys — read from environment variables first, fall back to hardcoded ─────
-GEMINI_KEY     = os.environ.get("GEMINI_KEY",     "")
-MAPS_KEY       = os.environ.get("MAPS_KEY",        "")
-SOS_EMAIL_FROM = os.environ.get("SOS_EMAIL_FROM",  "")
-SOS_EMAIL_PASS = os.environ.get("SOS_EMAIL_PASS",  "")
+GEMINI_KEY     = os.environ.get("GEMINI_KEY",      "AIzaSyALg4251KUdXhQRAINXwajmJH7JBcWFBRw")
+MAPS_KEY       = os.environ.get("MAPS_KEY",        "AIzaSyCHgf9f8qEYa53_qfPddWvWnvlgU_feJow")
+SOS_EMAIL_FROM = os.environ.get("SOS_EMAIL_FROM",  "ppavan_cse255a0507@mgit.ac.in")
+SOS_EMAIL_PASS = os.environ.get("SOS_EMAIL_PASS",  "yizd kdvs mzoo kbek")
 
 # ── Flask app + CORS (so the React web app can call this server) ──────────────
 app = Flask(__name__)
@@ -310,15 +310,13 @@ def list_users():
     """GET /api/users — returns list of all currently tracked usernames."""
     return jsonify(list(location_store.keys())), 200
 
+
 # ════════════════════════════════════════════════════════════════════════════════
 # CAREGIVER PORTAL  (unchanged from your original server.py)
 # ════════════════════════════════════════════════════════════════════════════════
 @app.route('/app')
 def webapp():
-    response = send_from_directory('.', 'safestride.html')
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    return response
-    
+    return send_from_directory('.', 'safestride.html')
 @app.route("/")
 @app.route("/portal")
 def portal():
@@ -391,11 +389,11 @@ if __name__ == "__main__":
     print("=" * 60)
     print("SafeStride Pro — Backend Server")
     print("=" * 60)
-    print(f"  Local URL    : http://localhost:8081")
-    print(f"  Portal       : http://localhost:8081/portal")
+    print(f"  Local URL    : http://localhost:8181")
+    print(f"  Portal       : http://localhost:8181/portal")
     print(f"  Gemini key   : {GEMINI_KEY[:8]}...")
     print(f"  Maps key     : {MAPS_KEY[:8]}...")
     print(f"  SOS from     : {SOS_EMAIL_FROM}")
     print(f"  Users file   : {USERS_FILE}")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=8081, debug=False)
+    app.run(host="0.0.0.0", port=8181, debug=False)
