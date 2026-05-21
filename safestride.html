@@ -881,6 +881,11 @@ function toast(msg) {
 }
 
 // ── Enter key support ──────────────────────────────────────
+// Unlock audio on mobile on first interaction
+document.addEventListener('click', () => {
+  const u = new SpeechSynthesisUtterance('');
+  window.speechSynthesis.speak(u);
+}, { once: true });
 document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
 document.getElementById('a-dest').addEventListener('keydown', e => { if (e.key==='Enter') getNav(); });
 document.getElementById('c-uid').addEventListener('keydown',  e => { if (e.key==='Enter') fetchTrack(); });

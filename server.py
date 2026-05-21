@@ -40,8 +40,8 @@ except ImportError:
     from services.ai_engine import AIEngine  # if ai_engine.py is inside services/
 
 # ── Keys — read from environment variables first, fall back to hardcoded ─────
-GEMINI_KEY     = os.environ.get("GEMINI_KEY",      "AIzaSyALg4251KUdXhQRAINXwajmJH7JBcWFBRw")
-MAPS_KEY       = os.environ.get("MAPS_KEY",        "AIzaSyCHgf9f8qEYa53_qfPddWvWnvlgU_feJow")
+GEMINI_KEY     = os.environ.get("GEMINI_KEY",      "AIzaSyA-Lcq36lUMkQvc4vWM-BcTJUlXQqq8YXc")
+MAPS_KEY       = os.environ.get("MAPS_KEY",        "AIzaSyAEkUurpESILqKHkDl6y08He5UTdAAh2bQ")
 SOS_EMAIL_FROM = os.environ.get("SOS_EMAIL_FROM",  "ppavan_cse255a0507@mgit.ac.in")
 SOS_EMAIL_PASS = os.environ.get("SOS_EMAIL_PASS",  "yizd kdvs mzoo kbek")
 
