@@ -754,7 +754,10 @@ async function getNav() {
     const pos = await new Promise((res, rej) =>
       navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000 }));
     origin = `${pos.coords.latitude},${pos.coords.longitude}`;
-  } catch {}
+  } catch(e) {
+  setStatus('GPS unavailable — using default location Hyderabad');
+  speak('Could not get your location. Using default location.');
+}
 
   try {
     // Always call through your server — keeps Maps key secret and avoids CORS
