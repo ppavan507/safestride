@@ -1,144 +1,173 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>SafeStride Pro</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
   :root {
-    --bg:      #09090f;
-    --bg2:     #0f0f1a;
-    --bg3:     #141420;
-    --card:    #13131f;
-    --border:  #1e1e30;
-    --g:       #00e87a;
-    --g2:      #00bb62;
-    --b:       #1a6fff;
-    --b2:      #0055dd;
-    --o:       #ff8c1a;
-    --r:       #ff2233;
-    --dim:     #5a5a72;
-    --txt:     #e8e8f2;
-    --txt2:    #9090aa;
-    --font:    'Space Grotesk', sans-serif;
-    --mono:    'JetBrains Mono', monospace;
+    --bg:     #09090f;
+    --bg2:    #0f0f1a;
+    --bg3:    #141420;
+    --card:   #13131f;
+    --border: #1e1e30;
+    --g:      #00e87a;
+    --b:      #1a6fff;
+    --o:      #ff8c1a;
+    --r:      #ff2233;
+    --dim:    #5a5a72;
+    --txt:    #e8e8f2;
+    --txt2:   #9090aa;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
+  html, body {
     background: var(--bg);
     color: var(--txt);
-    font-family: var(--font);
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-family: 'Space Grotesk', sans-serif;
+    height: 100%;
+    overflow: hidden;
   }
 
-  /* ── Screens ─────────────────────────────────────────── */
-  .screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn 0.2s ease; }
+  /* ── Screens ─────────────────────────────────────── */
+  .screen {
+    display: none; flex-direction: column;
+    height: 100vh; height: 100dvh;
+    overflow-y: auto;
+    animation: fadeIn 0.2s ease;
+  }
   .screen.active { display: flex; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
-  /* ── Common UI ──────────────────────────────────────── */
+  /* ── Common UI ──────────────────────────────────── */
   .header {
     background: var(--bg2);
     padding: 28px 24px 20px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
-  .logo { font-size: 42px; font-weight: 700; color: var(--g); letter-spacing: -1px; }
-  .logo-sub { font-size: 13px; color: var(--dim); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
+  .logo     { font-size: 40px; font-weight: 700; color: var(--g); letter-spacing: -1px; }
+  .logo-sub { font-size: 12px; color: var(--dim); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
 
   .topbar {
     background: var(--bg2);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     padding: 10px 14px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
 
-  .body-pad { padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .body-pad { padding: 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
   label.lbl {
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    color: var(--dim);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    display: block;
+    font-size: 11px; letter-spacing: 1.5px; color: var(--dim);
+    text-transform: uppercase; margin-bottom: 4px; display: block;
   }
 
   input.inp {
-    width: 100%;
-    background: var(--bg3);
-    color: var(--txt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 13px 15px;
-    font-size: 15px;
-    font-family: var(--font);
-    outline: none;
-    transition: border-color 0.15s;
+    width: 100%; background: var(--bg3); color: var(--txt);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 13px 15px; font-size: 15px; font-family: var(--font);
+    outline: none; transition: border-color 0.15s;
   }
   input.inp:focus { border-color: var(--b); }
   input.inp::placeholder { color: var(--dim); }
 
   .btn {
     border: none; cursor: pointer; border-radius: 10px;
-    font-family: var(--font); font-weight: 700;
-    font-size: 15px; padding: 15px 18px;
-    color: #fff; transition: opacity 0.15s, transform 0.1s;
-    white-space: nowrap; text-align: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+    font-size: 15px; padding: 15px 18px; color: #fff;
+    transition: opacity 0.15s, transform 0.1s;
+    white-space: nowrap; text-align: center; touch-action: manipulation;
   }
-  .btn:hover { opacity: 0.88; }
-  .btn:active { transform: scale(0.97); }
+  .btn:hover   { opacity: 0.88; }
+  .btn:active  { transform: scale(0.97); }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 
-  .btn-g  { background: var(--g);  color: #000; }
-  .btn-b  { background: var(--b); }
-  .btn-o  { background: var(--o); }
-  .btn-r  { background: var(--r); }
+  .btn-g   { background: var(--g);  color: #000; }
+  .btn-b   { background: var(--b); }
+  .btn-o   { background: var(--o); }
+  .btn-r   { background: var(--r); }
   .btn-dim { background: var(--bg3); color: var(--txt2); border: 1px solid var(--border); }
-
   .btn-full { width: 100%; font-size: 17px; padding: 17px; }
 
   .err { color: var(--r); font-size: 13px; min-height: 20px; }
-  .ok  { color: var(--g); font-size: 13px; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .flex1 { flex: 1; min-width: 0; }
 
-  /* ── Menu buttons ────────────────────────────────────── */
+  /* ── Menu buttons ────────────────────────────────── */
   .menu-btn {
     display: flex; align-items: center; gap: 14px;
     background: var(--bg3); border: 1px solid var(--border);
     border-radius: 14px; padding: 18px 20px;
     cursor: pointer; transition: border-color 0.15s, background 0.15s;
-    text-align: left; width: 100%;
-    font-family: var(--font);
+    text-align: left; width: 100%; font-family: 'Space Grotesk', sans-serif;
   }
   .menu-btn:hover { border-color: var(--b); background: #141425; }
-  .menu-icon { font-size: 26px; }
+  .menu-icon  { font-size: 26px; }
   .menu-label { font-size: 17px; font-weight: 600; color: var(--txt); }
   .menu-desc  { font-size: 12px; color: var(--dim); margin-top: 2px; }
+  .user-pill  {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(26,111,255,0.12); border: 1px solid rgba(26,111,255,0.25);
+    border-radius: 20px; padding: 4px 12px; font-size: 13px; color: var(--b);
+  }
+  .divider-line { height: 1px; background: var(--border); margin: 4px 0; }
 
-  /* ── Camera screen ───────────────────────────────────── */
+  /* ── ANALYZE SCREEN — fullscreen layout ──────────── */
+  #s-analyze {
+    background: #000;
+    overflow: hidden;
+  }
+
+  /* Top nav bar */
+  .cam-top {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 10px;
+    background: rgba(9,9,15,0.95);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .cam-top input.inp {
+    padding: 9px 12px; font-size: 14px;
+    background: rgba(20,20,32,0.9);
+  }
+  .cam-top .btn { padding: 9px 13px; font-size: 13px; }
+
+  /* Camera fills all space between top and bottom bars */
   #cam-wrapper {
     position: relative;
-    background: #000;
-    flex-shrink: 0;
     flex: 1;
+    background: #000;
+    overflow: hidden;
+    min-height: 0;
   }
+
   #cam-video {
-    width: 100%; display: block;
-    max-height: 60vh; object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
+
   #cam-canvas { display: none; }
+
+  /* Overlay on camera */
   #cam-overlay {
     position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    padding: 10px 14px 8px;
-    font-size: 14px; font-weight: 600; color: var(--g);
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    padding: 24px 14px 8px;
+    pointer-events: none;
+  }
+  #cam-overlay-txt {
+    font-size: 13px; font-weight: 600; color: var(--g);
   }
   #cam-status-dot {
     display: inline-block; width: 8px; height: 8px;
@@ -148,93 +177,84 @@
   #cam-status-dot.on { background: var(--g); animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-  .cam-top {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 10px;
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+  /* Flip camera button — floats over camera top-right */
+  #flip-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; border-radius: 50%; width: 42px; height: 42px;
+    font-size: 20px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 5; transition: background 0.2s;
+    touch-action: manipulation;
   }
-  .cam-top input.inp { padding: 10px 13px; font-size: 14px; }
-  .cam-top .btn { padding: 10px 14px; font-size: 13px; }
+  #flip-btn:active { background: rgba(255,255,255,0.2); }
 
+  /* Status bar */
+  .cam-status-bar {
+    background: rgba(9,9,15,0.95);
+    border-top: 1px solid var(--border);
+    padding: 5px 14px; font-size: 13px;
+    color: var(--g); font-weight: 600;
+    min-height: 28px; flex-shrink: 0;
+  }
+
+  /* Bottom action bar */
   .cam-bottom {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px;
-    background: var(--bg2);
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 10px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    background: rgba(9,9,15,0.95);
     border-top: 1px solid var(--border);
     flex-shrink: 0;
   }
-  .cam-status-bar {
-    background: var(--bg3); border-top: 1px solid var(--border);
-    padding: 6px 14px; font-size: 13px;
-    color: var(--g); font-weight: 600; min-height: 30px; flex-shrink: 0;
-  }
 
-  /* ── Caregiver map ───────────────────────────────────── */
-  #care-map { width: 100%; height: 280px; border: none; border-radius: 10px; background: var(--bg3); }
-  .info-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px 18px;
-  }
-  .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .info-key { font-size: 11px; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; }
-  .info-val { font-size: 14px; color: var(--txt); font-family: var(--mono); }
+  /* ── Caregiver screen ────────────────────────────── */
+  .scroll-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  #care-map { width: 100%; height: 260px; border: none; border-radius: 10px; background: var(--bg3); }
+  .info-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .info-row  { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .info-key  { font-size: 11px; letter-spacing: 1px; color: var(--dim); text-transform: uppercase; }
+  .info-val  { font-size: 14px; color: var(--txt); font-family: 'JetBrains Mono', monospace; }
   .online-badge {
-    display: inline-block;
     background: rgba(0,232,122,0.1); color: var(--g);
     border: 1px solid rgba(0,232,122,0.3);
     border-radius: 20px; padding: 3px 10px; font-size: 12px; font-weight: 600;
   }
 
-  /* ── Notification toast ──────────────────────────────── */
+  /* ── Toast ───────────────────────────────────────── */
   #toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
     background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
     padding: 12px 20px; font-size: 14px; color: var(--txt);
     opacity: 0; transition: all 0.25s; z-index: 9999; pointer-events: none;
-    white-space: nowrap; max-width: 90vw; white-space: normal; text-align: center;
+    max-width: 90vw; text-align: center;
   }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ── Scrollable content ──────────────────────────────── */
-  .scroll-body { flex: 1; overflow-y: auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px; }
-
-  /* ── Mic active glow ─────────────────────────────────── */
+  /* ── Mic glow ────────────────────────────────────── */
   .mic-active { animation: micGlow 0.8s infinite alternate; }
-  @keyframes micGlow { from { box-shadow: 0 0 0 0 rgba(255,140,26,0.4); } to { box-shadow: 0 0 0 8px rgba(255,140,26,0); } }
+  @keyframes micGlow { from{box-shadow:0 0 0 0 rgba(255,140,26,0.5)} to{box-shadow:0 0 0 8px rgba(255,140,26,0)} }
 
-  /* ── User pill ──────────────────────────────────────── */
-  .user-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(26,111,255,0.12); border: 1px solid rgba(26,111,255,0.25);
-    border-radius: 20px; padding: 4px 12px; font-size: 13px; color: var(--b);
-  }
-
-  /* ── SOS ring ────────────────────────────────────────── */
+  /* ── SOS ring ────────────────────────────────────── */
   .sos-ring { animation: sosRing 0.4s infinite alternate; }
-  @keyframes sosRing { from { box-shadow: 0 0 0 0 rgba(255,34,51,0.6); } to { box-shadow: 0 0 0 12px rgba(255,34,51,0); } }
-
-  .divider-line { height: 1px; background: var(--border); margin: 4px 0; }
-  .row { display: flex; gap: 8px; align-items: center; }
-  .flex1 { flex: 1; }
+  @keyframes sosRing { from{box-shadow:0 0 0 0 rgba(255,34,51,0.6)} to{box-shadow:0 0 0 12px rgba(255,34,51,0)} }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 1 — LOGIN
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen active" id="s-login">
   <div class="header">
     <div class="logo">SafeStride</div>
     <div class="logo-sub">Assistive Navigation System</div>
   </div>
-  <div class="body-pad" style="max-width:480px; width:100%; margin:0 auto;">
-    <div style="height:10px"></div>
+  <div class="body-pad" style="max-width:480px;width:100%;margin:0 auto;">
+    <div style="height:8px"></div>
     <div>
       <label class="lbl">Username</label>
-      <input class="inp" id="l-user" placeholder="Enter your username" autocomplete="off"/>
+      <input class="inp" id="l-user" placeholder="Enter your username" autocomplete="off" autocapitalize="none"/>
     </div>
     <div>
       <label class="lbl">Password</label>
@@ -243,22 +263,16 @@
     <div class="err" id="l-err"></div>
     <button class="btn btn-b btn-full" onclick="doLogin()">LOGIN</button>
     <button class="btn btn-dim btn-full" onclick="go('s-register')">Create New Account</button>
-    <div style="height:10px"></div>
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-      <div style="font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Demo credentials</div>
-      <div style="font-size:13px;color:var(--txt2);font-family:var(--mono);">Username: <span style="color:var(--g)">demo</span> &nbsp; Password: <span style="color:var(--g)">demo</span></div>
-      <div style="font-size:12px;color:var(--dim);margin-top:6px;">Or register a new account above.</div>
-    </div>
-    <div style="flex:1"></div>
-    <div style="font-size:11px;color:var(--dim);text-align:center;padding-bottom:8px;">
-      ⚠ Set SERVER_URL in the code to your Flask backend URL
+      <div style="font-size:11px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Server</div>
+      <div style="font-size:12px;color:var(--txt2);word-break:break-all;" id="server-display">detecting...</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 2 — REGISTER
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen" id="s-register">
   <div class="topbar">
     <button class="btn btn-dim" onclick="go('s-login')" style="padding:8px 14px;font-size:13px;">← Back</button>
@@ -267,7 +281,7 @@
   <div class="body-pad" style="max-width:480px;width:100%;margin:0 auto;">
     <div>
       <label class="lbl">Username</label>
-      <input class="inp" id="r-user" placeholder="Choose a username" autocomplete="off"/>
+      <input class="inp" id="r-user" placeholder="Choose a username" autocomplete="off" autocapitalize="none"/>
     </div>
     <div>
       <label class="lbl">Password</label>
@@ -280,16 +294,14 @@
     <div class="err" id="r-err"></div>
     <button class="btn btn-g btn-full" onclick="doRegister()">REGISTER</button>
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
-      <div style="font-size:12px;color:var(--dim);">
-        The emergency contact email will receive SOS alerts with your real-time GPS location.
-      </div>
+      <div style="font-size:12px;color:var(--dim);">Emergency contact receives SOS alerts with your live GPS location.</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 3 — HOME
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen" id="s-home">
   <div class="header">
     <div style="display:flex;justify-content:space-between;align-items:flex-start">
@@ -312,30 +324,36 @@
       <span class="menu-icon">📍</span>
       <div>
         <div class="menu-label" style="color:var(--b)">Caregiver Tracking</div>
-        <div class="menu-desc">Track a user's real-time location</div>
+        <div class="menu-desc">Track a user's real-time location on map</div>
       </div>
     </button>
     <div class="divider-line" style="margin:8px 0"></div>
-    <button class="btn btn-dim btn-full" style="font-size:15px" onclick="doLogout()">Logout</button>
+    <button class="btn btn-dim btn-full" onclick="doLogout()">Logout</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN 4 — ANALYZE (main screen)
-═══════════════════════════════════════════════════════════ -->
-<div class="screen" id="s-analyze" style="background:#000">
-  <!-- Top bar: back + destination input + mic + go -->
+<!-- ══════════════════════════════════════
+     SCREEN 4 — ANALYZE (fullscreen)
+══════════════════════════════════════ -->
+<div class="screen" id="s-analyze">
+
+  <!-- Top bar -->
   <div class="cam-top">
-    <button class="btn btn-dim" id="back-btn" onclick="stopAnalyze()" style="padding:9px 12px;font-size:13px;flex-shrink:0">← Home</button>
-    <input class="inp flex1" id="a-dest" placeholder="Type or say destination…" style="padding:10px 13px;font-size:14px"/>
-    <button class="btn btn-o" id="mic-dest-btn" onclick="listenFor('dest')" style="padding:9px 13px;font-size:13px;flex-shrink:0">🎤</button>
-    <button class="btn btn-b" id="go-btn" onclick="getNav()" style="padding:9px 14px;font-size:13px;flex-shrink:0">GO</button>
+    <button class="btn btn-dim" onclick="stopAnalyze()" style="padding:9px 11px;font-size:13px;flex-shrink:0">← Home</button>
+    <input class="inp flex1" id="a-dest" placeholder="Destination…" autocapitalize="none"/>
+    <button class="btn btn-o" id="mic-dest-btn" onclick="listenFor('dest')" style="padding:9px 12px;font-size:15px;flex-shrink:0">🎤</button>
+    <button class="btn btn-b" id="go-btn" onclick="getNav()" style="padding:9px 13px;font-size:13px;flex-shrink:0">GO</button>
   </div>
 
-  <!-- Camera -->
-  <div id="cam-wrapper" class="flex1">
+  <!-- Camera — fills all remaining space -->
+  <div id="cam-wrapper">
     <video id="cam-video" autoplay playsinline muted></video>
     <canvas id="cam-canvas"></canvas>
+
+    <!-- Flip camera button floats over camera -->
+    <button id="flip-btn" onclick="flipCamera()" title="Switch camera">🔄</button>
+
+    <!-- Status overlay at bottom of camera -->
     <div id="cam-overlay">
       <span id="cam-status-dot"></span>
       <span id="cam-overlay-txt">Camera starting…</span>
@@ -345,18 +363,19 @@
   <!-- Status bar -->
   <div class="cam-status-bar" id="a-status">Press ANALYZE to scan the scene</div>
 
-  <!-- Bottom bar: mode + analyze + mic + SOS -->
+  <!-- Bottom action bar -->
   <div class="cam-bottom">
-    <button class="btn btn-o" id="mode-btn" onclick="toggleMode()" style="padding:13px 14px;font-size:13px;flex-shrink:0">INDOOR</button>
-    <button class="btn btn-g flex1" id="analyze-btn" onclick="runAI()" style="font-size:15px;padding:13px">ANALYZE</button>
-    <button class="btn btn-o" id="mic-analyze-btn" onclick="listenFor('analyze')" style="padding:13px;font-size:13px;flex-shrink:0">🎤</button>
-    <button class="btn btn-r" id="sos-btn" onclick="triggerSOS()" style="padding:13px 14px;font-size:14px;font-weight:800;flex-shrink:0">SOS</button>
+    <button class="btn btn-o" id="mode-btn" onclick="toggleMode()" style="padding:12px 12px;font-size:12px;flex-shrink:0">INDOOR</button>
+    <button class="btn btn-g flex1" id="analyze-btn" onclick="runAI()" style="font-size:14px;padding:12px 8px">ANALYZE</button>
+    <button class="btn btn-o" id="mic-analyze-btn" onclick="listenFor('analyze')" style="padding:12px;font-size:15px;flex-shrink:0">🎤</button>
+    <button class="btn btn-r" id="sos-btn" onclick="triggerSOS()" style="padding:12px 13px;font-size:13px;font-weight:800;flex-shrink:0">SOS</button>
   </div>
+
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      SCREEN 5 — CAREGIVER
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════ -->
 <div class="screen" id="s-caregiver">
   <div class="topbar">
     <button class="btn btn-dim" onclick="go('s-home')" style="padding:8px 14px;font-size:13px">← Home</button>
@@ -366,18 +385,14 @@
     <div>
       <label class="lbl">Track a User</label>
       <div class="row">
-        <input class="inp flex1" id="c-uid" placeholder="Enter username" value="demo"/>
-        <button class="btn btn-g" onclick="fetchTrack()" style="padding:13px 18px;flex-shrink:0">TRACK</button>
-        <button class="btn btn-b" id="auto-btn" onclick="toggleAutoRefresh()" style="padding:13px 12px;font-size:13px;flex-shrink:0">AUTO</button>
+        <input class="inp flex1" id="c-uid" placeholder="Enter username" autocapitalize="none"/>
+        <button class="btn btn-g" onclick="fetchTrack()" style="padding:12px 16px;flex-shrink:0">TRACK</button>
+        <button class="btn btn-b" id="auto-btn" onclick="toggleAutoRefresh()" style="padding:12px 11px;font-size:13px;flex-shrink:0">AUTO</button>
       </div>
     </div>
-
     <div class="info-card" id="c-info-card">
-      <div style="color:var(--dim);font-size:14px;text-align:center;padding:10px 0">
-        Enter a username and press TRACK
-      </div>
+      <div style="color:var(--dim);font-size:14px;text-align:center;padding:10px 0">Enter a username and press TRACK</div>
     </div>
-
     <iframe id="care-map" src="" style="display:none"></iframe>
   </div>
 </div>
@@ -386,135 +401,130 @@
 <div id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════════════════════════
-// CONFIG — change SERVER to your deployed Flask URL
-// ══════════════════════════════════════════════════════════════════════
-const SERVER = window.location.hostname === 'localhost' 
-  ? 'http://localhost:8181' 
-  : '';  // e.g. 'https://safestride-xyz.onrender.com'
-                    // Leave empty to demo without a backend
+// ══════════════════════════════════════════════════════════════
+// SERVER URL — auto-detects based on where the page is opened
+// Works on: localhost, ngrok, any domain — no manual editing
+// ══════════════════════════════════════════════════════════════
+function getServer() {
+  const h = window.location.hostname;
+  const p = window.location.port;
+  const proto = window.location.protocol;
 
-// ══════════════════════════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════════════════════════
-let currentUser = '';
-let emergencyContact = '';
-let currentMode = 'Indoor';
-let camStream   = null;
-let isBusy      = false;
-let cdTimer     = null;
-let autoRefreshTimer = null;
-let isListening = false;
-
-// Demo user store (client-side only — no server needed for demo)
-const DEMO_USERS = {
-  'demo': { password: 'demo', emergency_contact: '' }
-};
-
-// ══════════════════════════════════════════════════════════════════════
-// SCREEN NAVIGATION
-// ══════════════════════════════════════════════════════════════════════
-function go(screenId) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
+  if (h === 'localhost' || h === '127.0.0.1') {
+    // PC: use whatever port the page was served from
+    return `http://${h}:${p || 8181}`;
+  }
+  // ngrok, railway, koyeb, any cloud URL:
+  // same origin — API calls go to same server automatically
+  return `${proto}//${h}${p ? ':'+p : ''}`;
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// API HELPERS (all calls to your Flask server.py)
-// ══════════════════════════════════════════════════════════════════════
+const SERVER = getServer();
+
+// Show server URL on login screen so user can verify
+document.getElementById('server-display').textContent = SERVER;
+
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+let currentUser      = '';
+let emergencyContact = '';
+let currentMode      = 'Indoor';
+let camStream        = null;
+let currentFacing    = 'environment'; // 'environment'=back, 'user'=front
+let isBusy           = false;
+let cdTimer          = null;
+let autoRefreshTimer = null;
+let isListening      = false;
+
+// Demo users (only used if server unreachable)
+const DEMO_USERS = { 'demo': { password: 'demo', emergency_contact: '' } };
+
+// ══════════════════════════════════════════════════════════════
+// SCREEN NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function go(id) {
+  // Stop camera if leaving analyze screen
+  if (document.getElementById('s-analyze').classList.contains('active') && id !== 's-analyze') {
+    stopCamera();
+  }
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // Start camera when entering analyze screen
+  if (id === 's-analyze') startCamera();
+}
+
+// ══════════════════════════════════════════════════════════════
+// API HELPERS
+// ══════════════════════════════════════════════════════════════
 async function api(path, data) {
-  if (!SERVER) throw new Error('No server configured');
   const r = await fetch(SERVER + path, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
   return r.json();
 }
 
 async function apiGet(path) {
-  if (!SERVER) throw new Error('No server configured');
   const r = await fetch(SERVER + path);
   return r.json();
 }
 
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 // LOGIN
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 async function doLogin() {
   const u  = document.getElementById('l-user').value.trim();
   const pw = document.getElementById('l-pass').value.trim();
   const errEl = document.getElementById('l-err');
   errEl.textContent = '';
+  if (!u || !pw) { errEl.textContent = 'Enter username and password.'; return; }
 
-  if (!u || !pw) { errEl.textContent = 'Please enter username and password.'; return; }
-
-  // Demo mode (no server)
-  if (!SERVER) {
-    if (DEMO_USERS[u] && DEMO_USERS[u].password === pw) {
-      currentUser = u;
-      emergencyContact = DEMO_USERS[u].emergency_contact || '';
-      afterLogin();
-    } else {
-      errEl.textContent = 'Invalid username or password.';
-    }
-    return;
-  }
-
-  // Real server call
   try {
-    const res = await api('/api/login', {username: u, password: pw});
+    const res = await api('/api/login', { username: u, password: pw });
     if (res.ok) {
-      currentUser = u;
-      emergencyContact = res.emergency_contact || '';
-      afterLogin();
+      currentUser = u; emergencyContact = res.emergency_contact || '';
+      document.getElementById('h-username').textContent = u;
+      document.getElementById('h-welcome').textContent  = `Welcome back, ${u}`;
+      go('s-home');
     } else {
       errEl.textContent = res.error || 'Invalid username or password.';
     }
   } catch(e) {
-    errEl.textContent = 'Server unreachable. Check SERVER_URL.';
+    // Fallback demo mode
+    if (DEMO_USERS[u] && DEMO_USERS[u].password === pw) {
+      currentUser = u; emergencyContact = '';
+      document.getElementById('h-username').textContent = u;
+      document.getElementById('h-welcome').textContent  = `Welcome, ${u} (demo)`;
+      go('s-home');
+    } else {
+      errEl.textContent = 'Server unreachable. Check server is running.';
+    }
   }
 }
 
-function afterLogin() {
-  document.getElementById('h-username').textContent = currentUser;
-  document.getElementById('h-welcome').textContent  = `Welcome back, ${currentUser}`;
-  go('s-home');
-}
-
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 // REGISTER
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 async function doRegister() {
   const u  = document.getElementById('r-user').value.trim();
   const pw = document.getElementById('r-pass').value.trim();
   const ec = document.getElementById('r-ec').value.trim();
   const errEl = document.getElementById('r-err');
   errEl.textContent = '';
-
-  if (!u || !pw)  { errEl.textContent = 'Username and password required.'; return; }
+  if (!u || !pw)     { errEl.textContent = 'Username and password required.'; return; }
   if (pw.length < 4) { errEl.textContent = 'Password must be at least 4 characters.'; return; }
 
-  if (!SERVER) {
-    if (DEMO_USERS[u]) { errEl.textContent = 'Username already taken.'; return; }
-    DEMO_USERS[u] = { password: pw, emergency_contact: ec };
-    toast('Account created! You can now login.');
-    go('s-login');
-    return;
-  }
-
   try {
-    const res = await api('/api/register', {username: u, password: pw, emergency_contact: ec});
-    if (res.ok) { toast('Account created!'); go('s-login'); }
+    const res = await api('/api/register', { username: u, password: pw, emergency_contact: ec });
+    if (res.ok) { toast('Account created! You can now login.'); go('s-login'); }
     else errEl.textContent = res.error || 'Registration failed.';
   } catch(e) {
-    errEl.textContent = 'Server unreachable.';
+    errEl.textContent = 'Server unreachable. Check server is running.';
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// LOGOUT
-// ══════════════════════════════════════════════════════════════════════
 function doLogout() {
   currentUser = ''; emergencyContact = '';
   document.getElementById('l-user').value = '';
@@ -522,24 +532,30 @@ function doLogout() {
   go('s-login');
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// CAMERA  (replaces cv2.VideoCapture)
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// CAMERA  — supports front/back flip
+// ══════════════════════════════════════════════════════════════
 async function startCamera() {
+  stopCamera();
   const dot = document.getElementById('cam-status-dot');
   const txt = document.getElementById('cam-overlay-txt');
   try {
     camStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment', width:{ideal:640}, height:{ideal:480} }
+      video: {
+        facingMode: currentFacing,
+        width:  { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
     });
     const video = document.getElementById('cam-video');
     video.srcObject = camStream;
     dot.className = 'on';
-    txt.textContent = `Live · ${currentMode} mode`;
+    txt.textContent = `Live · ${currentMode} mode · ${currentFacing === 'environment' ? 'Back' : 'Front'} camera`;
   } catch(e) {
     dot.className = '';
-    txt.textContent = 'Camera unavailable — browser or permission issue';
-    toast('Camera access denied. Allow camera in browser settings.');
+    txt.textContent = 'Camera unavailable — allow camera permission';
+    toast('Allow camera access in browser settings.');
   }
 }
 
@@ -548,263 +564,225 @@ function stopCamera() {
 }
 
 function stopAnalyze() {
-  stopCamera();
-  clearCooldown();
-  go('s-home');
+  stopCamera(); clearCooldown(); go('s-home');
 }
 
-// Capture frame → base64 JPEG (replaces cap.read() + cv2.imencode)
+// ── Flip between front and back camera ─────────────────
+async function flipCamera() {
+  currentFacing = currentFacing === 'environment' ? 'user' : 'environment';
+  const btn = document.getElementById('flip-btn');
+  btn.style.opacity = '0.5';
+  await startCamera();
+  btn.style.opacity = '1';
+  const txt = document.getElementById('cam-overlay-txt');
+  txt.textContent = `Live · ${currentMode} · ${currentFacing === 'environment' ? 'Back' : 'Front'} camera`;
+}
+
+// ── Capture frame as base64 JPEG ────────────────────────
 function captureFrame() {
   const video  = document.getElementById('cam-video');
   const canvas = document.getElementById('cam-canvas');
   canvas.width  = 640; canvas.height = 480;
   canvas.getContext('2d').drawImage(video, 0, 0, 640, 480);
-  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1]; // base64 only
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// TTS  (replaces pyttsx3 VoiceService)
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// TTS  (replaces pyttsx3)
+// ══════════════════════════════════════════════════════════════
 const synth = window.speechSynthesis;
-
 function speak(text) {
   synth.cancel();
-  if (!text || !text.trim()) return;
+  if (!text?.trim()) return;
   const u = new SpeechSynthesisUtterance(text);
-  u.rate   = 1.0;
-  u.volume = 1.0;
-  u.lang   = 'en-IN';
+  u.rate = 1.0; u.volume = 1.0; u.lang = 'en-IN';
   synth.speak(u);
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// OBSTACLE DETECTION  (same logic as extractObstacles() in main.py)
-// ══════════════════════════════════════════════════════════════════════
-const FORWARD_MARKERS = ['ahead','in front','directly','blocking','in your path','in the path','in the way','center'];
-const OBSTACLE_TERMS  = ['chair','table','door','step','stairs','wall','person','pole','box','bag',
-                         'cable','kerb','barrier','pillar','vehicle','car','bike','bicycle','column','post','rack'];
-
-function extractObstacles(desc) {
-  if (!desc) return false;
-  const d = desc.toLowerCase();
-  return FORWARD_MARKERS.some(m => d.includes(m)) && OBSTACLE_TERMS.some(t => d.includes(t));
-}
-
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 // MODE TOGGLE
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
 function toggleMode() {
   currentMode = currentMode === 'Indoor' ? 'Outdoor' : 'Indoor';
   const btn = document.getElementById('mode-btn');
   btn.textContent = currentMode.toUpperCase();
   btn.style.background = currentMode === 'Indoor' ? 'var(--o)' : 'var(--b)';
-  document.getElementById('cam-overlay-txt').textContent = `Live · ${currentMode} mode`;
+  document.getElementById('cam-overlay-txt').textContent =
+    `Live · ${currentMode} · ${currentFacing === 'environment' ? 'Back' : 'Front'} camera`;
   speak(`Switched to ${currentMode} mode.`);
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// AI ANALYZE  (sends frame to Flask /api/analyze → ai_engine.py → Gemini)
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// OBSTACLE DETECTION
+// ══════════════════════════════════════════════════════════════
+const FWD = ['ahead','in front','directly','blocking','in your path','in the path','center'];
+const OBS = ['chair','table','door','step','stairs','wall','person','pole','box',
+             'bag','cable','kerb','barrier','pillar','vehicle','car','bike','bicycle'];
+
+function hasObstacle(desc) {
+  const d = (desc||'').toLowerCase();
+  return FWD.some(m => d.includes(m)) && OBS.some(t => d.includes(t));
+}
+
+// ══════════════════════════════════════════════════════════════
+// AI ANALYZE
+// ══════════════════════════════════════════════════════════════
 async function runAI() {
   if (isBusy) return;
   isBusy = true;
   const btn = document.getElementById('analyze-btn');
-  btn.disabled     = true;
-  btn.textContent  = 'THINKING…';
-  btn.style.background = '#555';
+  btn.disabled = true; btn.textContent = 'THINKING…'; btn.style.background = '#555';
   setStatus('Analyzing scene…');
 
   const img = captureFrame();
-  if (!img) {
-    speak('Camera read failed.');
-    resetAI(3); return;
-  }
+  if (!img) { speak('Camera read failed.'); resetAI(3); return; }
 
-  let result = '';
-  if (!SERVER) {
-    // Demo mode — no real server
-    result = `Demo mode: ${currentMode} scan complete. No server connected — deploy Flask backend and set SERVER_URL to get real Gemini AI analysis.`;
-  } else {
-    try {
-      // POST base64 frame to your Flask /api/analyze which calls ai_engine.py
-      const res = await api('/api/analyze', { image: img, mode: currentMode });
-      result = res.result || '';
+  try {
+    const res    = await api('/api/analyze', { image: img, mode: currentMode });
+    const result = res.result || '';
 
-      // Track location silently
-      navigator.geolocation.getCurrentPosition(
-        pos => apiSilent('/api/track', {userId: currentUser, lat: pos.coords.latitude, lon: pos.coords.longitude}),
-        ()  => apiSilent('/api/track', {userId: currentUser, lat: 17.385, lon: 78.4867})
-      );
-    } catch(e) {
-      speak('Server error. Check connection.');
-      resetAI(3); return;
-    }
-  }
-
-  if (result === 'BUSY') {
-    speak('API quota reached. Please wait 35 seconds.');
-    setStatus('⏳ Quota limit — wait 35s');
-    resetAI(35);
-  } else if (!result || result === 'ERROR') {
-    speak('Analysis failed. Try again.');
-    resetAI(3);
-  } else {
-    if (extractObstacles(result)) {
-      speak('Warning! Obstacle ahead. ' + result);
-      setStatus('⚠️ OBSTACLE DETECTED');
+    if (result === 'BUSY') {
+      speak('API quota reached. Please wait 35 seconds.');
+      setStatus('⏳ Quota limit — wait 35s');
+      resetAI(35);
+    } else if (!result || result === 'ERROR') {
+      speak('Analysis failed. Try again.');
+      setStatus('Analysis failed');
+      resetAI(3);
     } else {
-      speak(result);
-      setStatus('✓ Path clear');
+      if (hasObstacle(result)) {
+        speak('Warning! Obstacle ahead. ' + result);
+        setStatus('⚠️ OBSTACLE DETECTED');
+      } else {
+        speak(result);
+        setStatus('✓ ' + result.slice(0, 60));
+      }
+      resetAI(5);
+      // Track location silently
+      navigator.geolocation?.getCurrentPosition(
+        pos => api('/api/track', { userId: currentUser, lat: pos.coords.latitude, lon: pos.coords.longitude }).catch(()=>{}),
+        ()  => api('/api/track', { userId: currentUser, lat: 17.385, lon: 78.4867 }).catch(()=>{})
+      );
     }
-    resetAI(5);
+  } catch(e) {
+    speak('Server error. Check connection.');
+    setStatus('Server error');
+    resetAI(3);
   }
 }
 
-async function apiSilent(path, data) {
-  try { await api(path, data); } catch {}
-}
+function setStatus(txt) { document.getElementById('a-status').textContent = txt; }
 
-function setStatus(txt) {
-  document.getElementById('a-status').textContent = txt;
-}
+function clearCooldown() { if (cdTimer) { clearInterval(cdTimer); cdTimer = null; } }
 
-function clearCooldown() {
-  if (cdTimer) { clearInterval(cdTimer); cdTimer = null; }
-}
-
-function resetAI(cooldownSecs) {
-  isBusy = false;
-  clearCooldown();
-  if (cooldownSecs <= 0) {
-    const btn = document.getElementById('analyze-btn');
-    btn.disabled     = false;
-    btn.textContent  = 'ANALYZE';
-    btn.style.background = 'var(--g)';
-    return;
-  }
-  let rem = cooldownSecs;
+function resetAI(secs) {
+  isBusy = false; clearCooldown();
   const btn = document.getElementById('analyze-btn');
-  btn.textContent  = `Wait ${rem}s`;
-  btn.style.background = '#555';
+  if (secs <= 0) {
+    btn.disabled = false; btn.textContent = 'ANALYZE'; btn.style.background = 'var(--g)'; return;
+  }
+  let rem = secs;
+  btn.textContent = `Wait ${rem}s`; btn.style.background = '#555';
   cdTimer = setInterval(() => {
     rem--;
     if (rem <= 0) {
       clearCooldown();
-      btn.disabled     = false;
-      btn.textContent  = 'ANALYZE';
-      btn.style.background = 'var(--g)';
-    } else {
-      btn.textContent = `Wait ${rem}s`;
-    }
+      btn.disabled = false; btn.textContent = 'ANALYZE'; btn.style.background = 'var(--g)';
+    } else btn.textContent = `Wait ${rem}s`;
   }, 1000);
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// VOICE MIC  (replaces SpeechRecognition + listen_once())
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// VOICE MIC  (replaces SpeechRecognition)
+// ══════════════════════════════════════════════════════════════
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 function listenFor(purpose) {
-  if (!SR) { toast('Speech recognition not supported. Use Chrome.'); return; }
+  if (!SR) { toast('Speech recognition needs Chrome browser.'); return; }
   if (isListening) return;
   isListening = true;
 
-  const micBtn = purpose === 'dest' ? document.getElementById('mic-dest-btn') :
-                                       document.getElementById('mic-analyze-btn');
+  const micBtn = purpose === 'dest'
+    ? document.getElementById('mic-dest-btn')
+    : document.getElementById('mic-analyze-btn');
   micBtn.classList.add('mic-active');
   micBtn.textContent = '…';
 
   const r = new SR();
-  r.lang             = 'en-IN';
-  r.interimResults   = false;
-  r.maxAlternatives  = 1;
+  r.lang = 'en-IN'; r.interimResults = false; r.maxAlternatives = 1;
 
   r.onresult = e => {
     const text = e.results[0][0].transcript.toLowerCase();
     isListening = false;
-    micBtn.classList.remove('mic-active');
-    micBtn.textContent = '🎤';
+    micBtn.classList.remove('mic-active'); micBtn.textContent = '🎤';
 
     if (purpose === 'dest') {
       document.getElementById('a-dest').value = text;
       speak(`Destination set to ${text}. Press GO to navigate.`);
-    } else if (purpose === 'analyze') {
+    } else {
       const triggers = ['analyze','scan','describe','look','check','scene','what'];
-      if (triggers.some(t => text.includes(t))) {
-        setStatus('Voice command received — analyzing…');
-        runAI();
-      } else {
-        setStatus('Say "analyze" or "scan" to trigger.');
-        speak('Say analyze to scan the scene.');
-      }
-    } else if (purpose === 'sos') {
-      const triggers = ['sos','help','emergency','save','danger'];
-      if (triggers.some(t => text.includes(t))) triggerSOS();
+      if (triggers.some(t => text.includes(t))) { setStatus('Voice command — analyzing…'); runAI(); }
+      else { speak('Say analyze to scan the scene.'); }
     }
   };
 
   r.onerror = () => {
     isListening = false;
-    micBtn.classList.remove('mic-active');
-    micBtn.textContent = '🎤';
+    micBtn.classList.remove('mic-active'); micBtn.textContent = '🎤';
     speak('Could not hear. Try again.');
   };
 
-  speak(purpose === 'dest' ? 'Say your destination.' :
-        purpose === 'sos'  ? 'Say SOS or help to send emergency alert.' :
-                             'Say analyze to scan the scene.');
+  speak(purpose === 'dest' ? 'Say your destination.' : 'Say analyze to scan the scene.');
   r.start();
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// NAVIGATION  (same Google Directions API call as main.py get_nav())
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION  — calls /api/nav on server (keeps Maps key hidden)
+// ══════════════════════════════════════════════════════════════
 async function getNav() {
   const dest = document.getElementById('a-dest').value.trim();
   if (!dest) { speak('Please type or say a destination first.'); return; }
 
   const btn = document.getElementById('go-btn');
-  btn.disabled    = true;
-  btn.textContent = '…';
+  btn.disabled = true; btn.textContent = '…';
   setStatus(`Getting directions to ${dest}…`);
   speak(`Getting directions to ${dest}`);
 
-  // Get GPS location
-  let origin = '17.3850,78.4867'; // fallback Hyderabad
+  // Get GPS
+  let origin = '17.3850,78.4867';
   try {
     const pos = await new Promise((res, rej) =>
-      navigator.geolocation.getCurrentPosition(res, rej, {timeout: 4000}));
+      navigator.geolocation.getCurrentPosition(res, rej, { timeout: 5000 }));
     origin = `${pos.coords.latitude},${pos.coords.longitude}`;
   } catch {}
 
   try {
-    // Call your Flask server /api/nav — it calls Google on your behalf
+    // Always call through your server — keeps Maps key secret and avoids CORS
     const r    = await fetch(`${SERVER}/api/nav?origin=${origin}&destination=${encodeURIComponent(dest)}`);
     const data = await r.json();
     handleNavResult(data, dest);
   } catch(e) {
-    speak('Navigation error. Check internet connection.');
+    speak('Navigation error. Check server connection.');
     setStatus('Navigation failed');
   }
 
-  btn.disabled    = false;
-  btn.textContent = 'GO';
+  btn.disabled = false; btn.textContent = 'GO';
 }
 
 function handleNavResult(data, dest) {
   if (data.status === 'OK') {
-    const steps  = data.routes[0].legs[0].steps.slice(0, 3);
-    let speech   = `Directions to ${dest}. `;
-    let statusTxt = '';
+    const steps = data.routes[0].legs[0].steps.slice(0, 3);
+    let speech  = `Directions to ${dest}. `;
     steps.forEach((s, i) => {
       const instr = s.html_instructions.replace(/<[^>]+>/g, '');
-      speech  += `Step ${i+1}: ${instr} for ${s.distance.text}. `;
-      statusTxt = `Route to ${dest}: ${instr}`;
+      speech += `Step ${i+1}: ${instr} for ${s.distance.text}. `;
     });
     speak(speech);
-    setStatus(statusTxt);
+    const first = data.routes[0].legs[0].steps[0].html_instructions.replace(/<[^>]+>/g,'');
+    setStatus(`Route: ${first}`);
   } else if (data.status === 'REQUEST_DENIED') {
-    speak('Maps API key denied. Check your key.');
+    speak('Maps API key invalid or Directions API not enabled. Check Google Cloud Console.');
+    setStatus('Maps key error — check Railway variables');
   } else if (data.status === 'ZERO_RESULTS') {
     speak(`No walking route found to ${dest}.`);
   } else {
@@ -812,31 +790,20 @@ function handleNavResult(data, dest) {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// SOS  (calls Flask /api/sos → server sends smtplib email, same as main.py)
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// SOS
+// ══════════════════════════════════════════════════════════════
 async function triggerSOS() {
   const btn = document.getElementById('sos-btn');
-  btn.disabled    = true;
-  btn.textContent = 'SENDING…';
-  btn.classList.add('sos-ring');
+  btn.disabled = true; btn.textContent = 'SENDING…'; btn.classList.add('sos-ring');
   speak('S O S alert triggered. Sending emergency email.');
 
   let lat = 17.385, lon = 78.4867;
   try {
-    const pos = await new Promise((res, rej) =>
-      navigator.geolocation.getCurrentPosition(res, rej, {timeout:3000}));
+    const pos = await new Promise((res,rej) =>
+      navigator.geolocation.getCurrentPosition(res, rej, { timeout: 3000 }));
     lat = pos.coords.latitude; lon = pos.coords.longitude;
   } catch {}
-
-  if (!SERVER) {
-    setTimeout(() => {
-      speak('Demo mode: SOS email would be sent to ' + (emergencyContact || 'emergency contact'));
-      toast(`SOS Demo: lat=${lat.toFixed(4)}, lon=${lon.toFixed(4)} — deploy server to send real email`);
-      btn.disabled = false; btn.textContent = 'SOS'; btn.classList.remove('sos-ring');
-    }, 1500);
-    return;
-  }
 
   try {
     const res = await api('/api/sos', {
@@ -844,14 +811,13 @@ async function triggerSOS() {
     });
     if (res.ok) {
       speak('S O S email sent. Help is on the way.');
-      btn.textContent = 'SENT ✓';
-      btn.style.background = 'var(--g)';
+      btn.textContent = 'SENT ✓'; btn.style.background = 'var(--g)';
       setTimeout(() => {
         btn.disabled = false; btn.textContent = 'SOS';
         btn.style.background = 'var(--r)'; btn.classList.remove('sos-ring');
       }, 8000);
     } else {
-      speak('SOS email failed. Check email settings.');
+      speak('SOS email failed. Check email settings on server.');
       btn.disabled = false; btn.textContent = 'SOS'; btn.classList.remove('sos-ring');
     }
   } catch {
@@ -860,43 +826,32 @@ async function triggerSOS() {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// CAREGIVER TRACKING  (fetches from Flask /api/track/<userId>)
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// CAREGIVER TRACKING
+// ══════════════════════════════════════════════════════════════
 async function fetchTrack() {
   const uid = document.getElementById('c-uid').value.trim();
   if (!uid) { toast('Enter a username.'); return; }
-
-  const infoCard = document.getElementById('c-info-card');
-
-  if (!SERVER) {
-    infoCard.innerHTML = `
-      <div style="font-size:13px;color:var(--dim);margin-bottom:10px">Demo mode — no server connected</div>
-      <div class="info-row"><span class="info-key">User</span><span class="info-val">${uid}</span></div>
-      <div class="info-row"><span class="info-key">Status</span><span class="online-badge">Demo</span></div>
-      <div style="font-size:12px;color:var(--dim);margin-top:8px">Deploy Flask server to see real tracking data.</div>`;
-    return;
-  }
-
+  const card = document.getElementById('c-info-card');
   try {
     const data = await apiGet(`/api/track/${uid}`);
     if (data && data.length > 0) {
       const d = data[0];
-      infoCard.innerHTML = `
+      card.innerHTML = `
         <div class="info-row"><span class="info-key">User</span><span class="info-val">${uid}</span></div>
         <div class="info-row"><span class="info-key">Latitude</span><span class="info-val">${d.lat}</span></div>
         <div class="info-row"><span class="info-key">Longitude</span><span class="info-val">${d.lon}</span></div>
         <div class="info-row"><span class="info-key">Last seen</span><span class="info-val" style="font-size:12px">${d.timestamp}</span></div>
         <div class="info-row"><span class="info-key">Status</span><span class="online-badge">● Online</span></div>`;
       const map = document.getElementById('care-map');
-      map.src   = `https://maps.google.com/maps?q=${d.lat},${d.lon}&z=16&output=embed`;
+      map.src = `https://maps.google.com/maps?q=${d.lat},${d.lon}&z=16&output=embed`;
       map.style.display = 'block';
     } else {
-      infoCard.innerHTML = `<div style="color:var(--dim);font-size:14px;text-align:center;padding:10px 0">No data found for "<b style="color:var(--txt)">${uid}</b>".<br/>Make sure the app is running and sending data.</div>`;
+      card.innerHTML = `<div style="color:var(--dim);font-size:14px;text-align:center;padding:10px 0">No data for "<b style="color:var(--txt)">${uid}</b>".<br/>Use the app first to send location.</div>`;
       document.getElementById('care-map').style.display = 'none';
     }
   } catch {
-    infoCard.innerHTML = `<div style="color:var(--r);font-size:13px">Tracking server offline. Run: python server.py</div>`;
+    card.innerHTML = `<div style="color:var(--r);font-size:13px;text-align:center">Server unreachable. Make sure server.py is running.</div>`;
   }
 }
 
@@ -904,56 +859,31 @@ let autoOn = false;
 function toggleAutoRefresh() {
   const btn = document.getElementById('auto-btn');
   if (autoOn) {
-    clearInterval(autoRefreshTimer);
-    autoOn = false;
-    btn.style.background = 'var(--b)';
-    btn.textContent = 'AUTO';
+    clearInterval(autoRefreshTimer); autoOn = false;
+    btn.style.background = 'var(--b)'; btn.style.color = '#fff'; btn.textContent = 'AUTO';
   } else {
     autoOn = true;
-    btn.style.background = 'var(--g)';
-    btn.style.color = '#000';
-    btn.textContent = 'LIVE ●';
+    btn.style.background = 'var(--g)'; btn.style.color = '#000'; btn.textContent = 'LIVE ●';
     fetchTrack();
     autoRefreshTimer = setInterval(fetchTrack, 5000);
   }
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// TOAST HELPER
-// ══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════
 let toastTimer;
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
+  el.textContent = msg; el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// HOOK: start camera when entering analyze screen
-// ══════════════════════════════════════════════════════════════════════
-// Override go() to trigger camera start/stop
-const _go = go;
-window.go = function(id) {
-  if (id === 's-analyze') {
-    _go(id);
-    startCamera();
-  } else {
-    if (document.getElementById('s-analyze').classList.contains('active')) {
-      stopCamera();
-    }
-    _go(id);
-  }
-};
-
-// Enter key on login
-document.getElementById('l-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-document.getElementById('a-dest').addEventListener('keydown', e => {
-  if (e.key === 'Enter') getNav();
-});
+// ── Enter key support ──────────────────────────────────────
+document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('a-dest').addEventListener('keydown', e => { if (e.key==='Enter') getNav(); });
+document.getElementById('c-uid').addEventListener('keydown',  e => { if (e.key==='Enter') fetchTrack(); });
 </script>
 </body>
 </html>
