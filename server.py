@@ -16,6 +16,8 @@ Endpoints:
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 import json
 import hashlib
 import base64
@@ -40,10 +42,10 @@ except ImportError:
     from services.ai_engine import AIEngine  # if ai_engine.py is inside services/
 
 # ── Keys — read from environment variables first, fall back to hardcoded ─────
-GEMINI_KEY     = os.environ.get("GEMINI_KEY",      "AIzaSyA-Lcq36lUMkQvc4vWM-BcTJUlXQqq8YXc")
-MAPS_KEY       = os.environ.get("MAPS_KEY",        "AIzaSyAEkUurpESILqKHkDl6y08He5UTdAAh2bQ")
-SOS_EMAIL_FROM = os.environ.get("SOS_EMAIL_FROM",  "ppavan_cse255a0507@mgit.ac.in")
-SOS_EMAIL_PASS = os.environ.get("SOS_EMAIL_PASS",  "yizd kdvs mzoo kbek")
+GEMINI_KEY     = os.environ.get("GEMINI_KEY",      "")
+MAPS_KEY       = os.environ.get("MAPS_KEY",        "")
+SOS_EMAIL_FROM = os.environ.get("SOS_EMAIL_FROM",  "")
+SOS_EMAIL_PASS = os.environ.get("SOS_EMAIL_PASS",  "")
 
 # ── Flask app + CORS (so the React web app can call this server) ──────────────
 app = Flask(__name__)

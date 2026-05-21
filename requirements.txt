@@ -2,5 +2,6 @@ flask
 flask-cors
 opencv-python-headless
 google-generativeai
-numpy
+numpy<2
 requests
+python-dotenv
