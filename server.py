@@ -282,30 +282,46 @@ def nav():
 # ════════════════════════════════════════════════════════════════════════════════
 # LOCATION TRACKING  (unchanged from your original server.py)
 # ════════════════════════════════════════════════════════════════════════════════
+LOCATION_FILE = os.path.join(os.path.dirname(__file__), "locations.json")
+
+def load_locations():
+    if not os.path.exists(LOCATION_FILE): return {}
+    try:
+        with open(LOCATION_FILE) as f: return json.load(f)
+    except: return {}
+
+def save_locations(data):
+    try:
+        with open(LOCATION_FILE, 'w') as f: json.dump(data, f)
+    except: pass
 
 @app.route("/api/track", methods=["POST"])
 def log_location():
-    """
-    POST {{ "userId": "pavan", "lat": 17.385, "lon": 78.4867 }}
-    Stores the location in memory (last 50 entries per user).
-    """
     data  = request.get_json()
     uid   = str(data.get("userId", "unknown"))
     lat   = data.get("lat", 0.0)
     lon   = data.get("lon", 0.0)
     entry = {"lat": lat, "lon": lon, "timestamp": datetime.now().isoformat()}
+    
+    locations = load_locations()
+    locations.setdefault(uid, []).insert(0, entry)
+    locations[uid] = locations[uid][:50]
+    save_locations(locations)
+    
+    # Also keep in memory for fast reads
     location_store.setdefault(uid, []).insert(0, entry)
-    location_store[uid] = location_store[uid][:50]   # keep last 50
+    location_store[uid] = location_store[uid][:50]
+    
     print(f"[Track] {uid} → lat={lat}, lon={lon}")
     return jsonify(entry), 200
 
-
 @app.route("/api/track/<user_id>", methods=["GET"])
 def get_location(user_id):
-    """GET /api/track/pavan — returns list of location entries, newest first."""
-    data = location_store.get(user_id, [])
-    return jsonify(data), 200
-
+    # Try memory first, fall back to file
+    if user_id in location_store:
+        return jsonify(location_store[user_id]), 200
+    locations = load_locations()
+    return jsonify(locations.get(user_id, [])), 200
 
 @app.route("/api/users", methods=["GET"])
 def list_users():
