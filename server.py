@@ -386,14 +386,15 @@ def portal():
 # ════════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8181))
     print("=" * 60)
     print("SafeStride Pro — Backend Server")
     print("=" * 60)
-    print(f"  Local URL    : http://localhost:8181")
-    print(f"  Portal       : http://localhost:8181/portal")
+    print(f"  Local URL    : http://localhost:{port}")
+    print(f"  Portal       : http://localhost:{port}/portal")
     print(f"  Gemini key   : {GEMINI_KEY[:8]}...")
     print(f"  Maps key     : {MAPS_KEY[:8]}...")
     print(f"  SOS from     : {SOS_EMAIL_FROM}")
     print(f"  Users file   : {USERS_FILE}")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8181)), debug=False)
+    app.run(host="0.0.0.0", port=port, debug=False)
