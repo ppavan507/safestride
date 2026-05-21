@@ -396,4 +396,4 @@ if __name__ == "__main__":
     print(f"  SOS from     : {SOS_EMAIL_FROM}")
     print(f"  Users file   : {USERS_FILE}")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=8181, debug=False)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8181)), debug=False)
